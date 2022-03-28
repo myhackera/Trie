@@ -1,0 +1,51 @@
+from typing import *
+
+class TrieNode:
+
+    def __init__(self):
+        self.children = {}
+        self.endswith = False
+        
+class Trie:
+
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def insert(self, word):
+    
+        curr = self.root
+        for c in word:
+            if c not in curr.children:
+                curr.children[c] = TrieNode()
+            curr = curr.children[c]
+        curr.endswith = True
+        
+    def checkprefixexists(self, word):
+    
+        curr = self.root
+        flag = True
+        for c in word:
+            if c in curr.children:
+                curr = curr.children[c]
+                if curr.endswith == False:
+                	return False
+            else:
+                return False
+        return True
+            
+def completeString(n: int, a: List[str])-> str:
+
+    t = Trie()
+    for c in a:
+        t.insert(c)
+    longest = ""
+    for c in a:
+        if t.checkprefixexists(c):
+            if len(c) > len(longest):
+                longest = c
+            elif len(c) == len(longest) and c < longest:
+                longest = c
+    return None if longest == "" else longest
+    
+    
+    

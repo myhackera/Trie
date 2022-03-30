@@ -1,0 +1,50 @@
+class Trie:
+    def __init__(self):
+        self.children = {}
+
+class Solution:
+    def __init__(self):
+        self.root = Trie()
+        
+    def insert_bits(self, num):
+        
+        binary = bin(num)[2:].zfill(32)
+        curr = self.root
+        for bit in binary:
+            if bit not in curr.children:
+                curr.children[bit] = Trie()
+            curr = curr.children[bit]
+            
+    
+    def findMax(self, num):
+        
+        binary = bin(num)[2:].zfill(32)
+        res = ""
+        curr = self.root
+        for bit in binary:
+            if bit == "1":
+                opp_bit = "0"
+            elif bit == "0":
+                opp_bit = "1"
+            if opp_bit in curr.children:
+                res += opp_bit
+                curr = curr.children[opp_bit] 
+            else:
+                res += bit
+                curr = curr.children[bit]
+            
+        return int(res, 2)^num
+                
+    
+        
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        
+        maxXor = 0
+        
+        for num in nums:
+            self.insert_bits(num)
+            
+        for num in nums:
+            maxXor = max(maxXor, self.findMax(num))
+            
+        return maxXor

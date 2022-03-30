@@ -1,0 +1,21 @@
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        
+def countDistinctSubstrings(word):
+
+    root = TrieNode()
+    cnt = 0
+    
+    for i in range(len(word)):
+    
+        node = root
+        
+        for j in range(i, len(word)):
+        
+            if word[j] not in node.children:
+            	cnt += 1 
+            	node.children[word[j]] = TrieNode()
+            node = node.children[word[j]]
+            
+    return cnt + 1
